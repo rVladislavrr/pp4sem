@@ -1,0 +1,76 @@
+# Test your FastAPI endpoints
+
+#GET http://127.0.0.1:8000/
+#Accept: application/json
+
+###
+
+#GET http://127.0.0.1:8000/hello/User
+#Accept: application/json
+
+###
+# проверка на уменьшение сложности
+POST http://127.0.0.1:8000
+Content-Type: application/json
+
+[
+    {
+        "theme": "Матрицы",
+        "complexity": 2,
+        "answer": "False"
+    }, {
+        "theme": "Матрицы",
+        "complexity": 2,
+        "answer": "False"
+    }, {
+        "theme": "Матрицы",
+        "complexity": 1,
+        "answer": "False"
+    }, {
+        "theme": "Матрицы",
+        "complexity": 0,
+        "answer": "True"
+    }, {
+        "theme": "Треугольники",
+        "complexity": 2,
+        "answer": "True"
+    }, {
+        "theme": "Треугольники",
+        "complexity": 2,
+        "answer": "False"
+    }, {
+        "theme": "Треугольники",
+        "complexity": 1,
+        "answer": "False"
+    }
+]
+
+
+###
+# проверка на увеличение
+POST http://127.0.0.1:8000
+Content-Type: application/json
+
+[
+    {
+        "theme": "Матрицы",
+        "complexity": 1,
+        "answer": "True"
+    }, {
+        "theme": "Матрицы",
+        "complexity": 1,
+        "answer": "True"
+    }, {
+        "theme": "Матрицы",
+        "complexity": 0,
+        "answer": "True"
+    }, {
+        "theme": "Треугольники",
+        "complexity": 0,
+        "answer": "True"
+    }, {
+        "theme": "Треугольники",
+        "complexity": 1,
+        "answer": "True"
+    }
+]
