@@ -13,11 +13,11 @@ async def root(data: list[Exercise]):
     return createJsFgen(lst, flag)
 
 
-def createJsFgen(lst: list[Exercise], flag: bool) -> list:
+def createJsFgen(lst: list[Exercise], correct: bool) -> list:
     """
     Функция, которая создаёт лист для генератора готовый для передачи в виде JSON
     :param lst: лист с задачами
-    :param flag: либо положительные, либо отрицательные все задачи
+    :param correct: либо положительные, либо отрицательные все задачи
     :return: лист для создания задач генератором
     """
     chek_themes = {}
@@ -25,13 +25,13 @@ def createJsFgen(lst: list[Exercise], flag: bool) -> list:
         if model.theme not in chek_themes:
             chek_themes[model.theme] = model.complexity
         else:
-            if flag:
+            if correct:
                 chek_themes[model.theme] = model.complexity if model.complexity > chek_themes[model.theme] \
                     else chek_themes[model.theme]
             else:
                 chek_themes[model.theme] = model.complexity if model.complexity < chek_themes[model.theme] \
                     else chek_themes[model.theme]
-    if flag:
+    if correct:
         return [{
             'title': theme,
             'complexity': chek_themes[theme] + 1 if chek_themes[theme] != 2 else 2,
