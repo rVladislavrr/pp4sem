@@ -15,31 +15,31 @@ Content-Type: application/json
 
 [
     {
-        "theme": "Матрицы",
+        "theme": "Комплексные числа",
+        "complexity": 0,
+        "answer": "False"
+    }, {
+        "theme": "Комплексные числа",
         "complexity": 2,
         "answer": "False"
     }, {
-        "theme": "Матрицы",
-        "complexity": 2,
-        "answer": "False"
-    }, {
-        "theme": "Матрицы",
+        "theme": "Комплексные числа",
         "complexity": 1,
         "answer": "False"
     }, {
-        "theme": "Матрицы",
+        "theme": "Комплексные числа",
         "complexity": 0,
         "answer": "True"
     }, {
-        "theme": "Треугольники",
+        "theme": "Линейные операторы",
         "complexity": 2,
         "answer": "True"
     }, {
-        "theme": "Треугольники",
-        "complexity": 2,
+        "theme": "Линейные операторы",
+        "complexity": 0,
         "answer": "False"
     }, {
-        "theme": "Треугольники",
+        "theme": "Линейные операторы",
         "complexity": 1,
         "answer": "False"
     }
@@ -53,24 +53,24 @@ Content-Type: application/json
 
 [
     {
-        "theme": "Матрицы",
+        "theme": "Комплексные числа",
         "complexity": 1,
         "answer": "True"
     }, {
-        "theme": "Матрицы",
-        "complexity": 1,
+        "theme": "Комплексные числа",
+        "complexity": 2,
         "answer": "True"
     }, {
-        "theme": "Матрицы",
+        "theme": "Комплексные числа",
         "complexity": 0,
         "answer": "True"
     }, {
-        "theme": "Треугольники",
+        "theme": "Линейные операторы",
         "complexity": 0,
         "answer": "True"
     }, {
-        "theme": "Треугольники",
-        "complexity": 1,
+        "theme": "Линейные операторы",
+        "complexity": 2,
         "answer": "True"
     }
 ]
