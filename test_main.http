@@ -16,36 +16,22 @@ Content-Type: application/json
 [
     {
         "theme": "Комплексные числа",
-        "complexity": 0,
-        "answer": "False"
-    }, {
-        "theme": "Комплексные числа",
         "complexity": 2,
         "answer": "False"
     }, {
         "theme": "Комплексные числа",
-        "complexity": 1,
-        "answer": "False"
-    }, {
-        "theme": "Комплексные числа",
-        "complexity": 0,
-        "answer": "True"
-    }, {
-        "theme": "Линейные операторы",
-        "complexity": 2,
-        "answer": "True"
-    }, {
-        "theme": "Линейные операторы",
         "complexity": 0,
         "answer": "False"
     }, {
         "theme": "Линейные операторы",
         "complexity": 1,
+        "answer": "False"
+    }, {
+        "theme": "Линейные операторы",
+        "complexity": 0,
         "answer": "False"
     }
 ]
-
-
 ###
 # проверка на увеличение
 POST http://127.0.0.1:8000
@@ -60,11 +46,7 @@ Content-Type: application/json
         "theme": "Комплексные числа",
         "complexity": 2,
         "answer": "True"
-    }, {
-        "theme": "Комплексные числа",
-        "complexity": 0,
-        "answer": "True"
-    }, {
+    },  {
         "theme": "Линейные операторы",
         "complexity": 0,
         "answer": "True"
@@ -73,4 +55,26 @@ Content-Type: application/json
         "complexity": 2,
         "answer": "True"
     }
+]
+###
+# проверка на увеличение
+POST http://127.0.0.1:8000
+Content-Type: application/json
+
+[
+  {
+    "theme": "Комплексные числа",
+    "complexity": 0,
+    "answer": "True"
+  },
+  {
+    "theme": "Линейные операторы",
+    "complexity": 1,
+    "answer": "True"
+  },
+  {
+    "theme": "Множества",
+    "complexity": 2,
+    "answer": "True"
+  }
 ]

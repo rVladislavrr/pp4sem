@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 # from services.gener_math import req_math
-from models.base import Exercise
 from main.handling import *
 
 app = FastAPI()

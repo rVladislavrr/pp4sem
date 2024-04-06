@@ -5,7 +5,7 @@ from graph.accessDB import *
 async def changeTheme(theme: str, dirOfChange: bool = False) -> list[dict]:
     themes = findElements(theme, dirOfChange)
     return [{
-        "theme": th,
+        "title": th,
         "count": 1,
         "complexity": 0 if dirOfChange else 2
     } for th in await themes]
@@ -39,7 +39,15 @@ async def createJsFgen(lst: list[Exercise], correct: bool) -> list:
                 'complexity': chek_themes[theme] + 1 if correct else chek_themes[theme] - 1,
                 'count': 1
             })
-    return res
+    new_obj = {}
+    print(res)
+    for obj in res:
+        if obj['title'] in new_obj:
+            new_obj[obj['title']]['count'] += 1
+        else:
+            new_obj[obj['title']] = obj
+    return list(new_obj.values())
+
 
 
 async def filter_List(lst: list[Exercise]) -> (list, bool):
