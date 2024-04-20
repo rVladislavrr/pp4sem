@@ -3,9 +3,8 @@ import sqlite3
 async def findId(name_element: str, cursor) -> int:
     try:
         query = f"select themes.id from themes where themes = '{name_element}'"
-        rows = cursor.execute(query)
-        for row in rows:
-            return row[0]
+        row = cursor.execute(query).fetchone()
+        return row[0]
     except Exception as e:
         return -1
 

@@ -1,80 +1,32 @@
-# Test your FastAPI endpoints
 
-#GET http://127.0.0.1:8000/
-#Accept: application/json
-
+GET http://127.0.0.1:8000/path/Матрица/Метод вычисления Определителя (понижением порядка)
 ###
-
-#GET http://127.0.0.1:8000/hello/User
-#Accept: application/json
-
+GET http://127.0.0.1:8000/next/Матрица
 ###
-# проверка на уменьшение сложности
-POST http://127.0.0.1:8000
+GET http://127.0.0.1:8000/behind/Метод вычисления Определителя (сведением к треугольному виду)
+###
+GET http://127.0.0.1:8000
 Content-Type: application/json
 
-[
+{
+  "test": [
     {
-        "theme": "Комплексные числа",
-        "complexity": 2,
-        "answer": "False"
-    }, {
-        "theme": "Комплексные числа",
-        "complexity": 0,
-        "answer": "False"
-    }, {
-        "theme": "Линейные операторы",
-        "complexity": 1,
-        "answer": "False"
-    }, {
-        "theme": "Линейные операторы",
-        "complexity": 0,
-        "answer": "False"
-    }
-]
-###
-# проверка на увеличение
-POST http://127.0.0.1:8000
-Content-Type: application/json
-
-[
+      "theme": "Матрица",
+      "complexity": 0,
+      "answer": "True"
+    },
     {
-        "theme": "Комплексные числа",
-        "complexity": 1,
-        "answer": "True"
-    }, {
-        "theme": "Комплексные числа",
-        "complexity": 2,
-        "answer": "True"
-    },  {
-        "theme": "Линейные операторы",
-        "complexity": 0,
-        "answer": "True"
-    }, {
-        "theme": "Линейные операторы",
-        "complexity": 2,
-        "answer": "True"
+      "theme": "Матрица",
+      "complexity": 1,
+      "answer": "True"
+    },
+    {
+      "theme": "Матрица",
+      "complexity": 2,
+      "answer": "True"
     }
-]
-###
-# проверка на увеличение
-POST http://127.0.0.1:8000
-Content-Type: application/json
+  ],
+  "studied": ["Комплексные числа"],
+  "topic": "Метод вычисления Определителя (понижением порядка)"
+}
 
-[
-  {
-    "theme": "Комплексные числа",
-    "complexity": 0,
-    "answer": "True"
-  },
-  {
-    "theme": "Линейные операторы",
-    "complexity": 1,
-    "answer": "True"
-  },
-  {
-    "theme": "Множества",
-    "complexity": 2,
-    "answer": "True"
-  }
-]
