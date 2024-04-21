@@ -1,24 +1,4 @@
-from main.start import app
-from fastapi.testclient import TestClient
-
-client = TestClient(app)
-
-async def accessGraph(theme: str, topic, correct: bool = False, list_studied: list = []) -> list:
-    if correct:
-        if topic:
-            response = client.get(f"/path/{theme}/{topic}").json()
-            if len(response) > 1:
-                res = [{"title": response[i], "count": 1, "complexity": 0} for i in range(1, len(response))]
-                for r in res:
-                    if r["title"] not in list_studied:
-                        return [r]
-        else:
-            response = client.get(f"/next/{theme}").json()
-            return [{"title": node, "count": 1, "complexity": 0} for node in response]
-    else:
-        response = client.get(f"/behind/{theme}").json()
-        return [{"title": node, "count": 1, "complexity": 0} for node in response]
-    return []
+from graph.graphDBCypher import accessGraph
 
 async def filter_List(lst: list) -> (list, bool):
     """
@@ -28,8 +8,7 @@ async def filter_List(lst: list) -> (list, bool):
     negative = [mod for mod in lst if not mod.get_answer()]
     return (negative, False) if negative else (lst, True)
 
-
-async def createListJson(lst: list, correct: bool, list_studied=None, topic: str = '') -> dict:
+async def createListJson(app, lst: list, correct: bool, list_studied=None, topic: str = '') -> dict:
     if list_studied is None:
         list_studied = []
 
@@ -53,7 +32,7 @@ async def createListJson(lst: list, correct: bool, list_studied=None, topic: str
         if (chek_themes[theme] >= 2 and correct) or (chek_themes[theme] <= 0 and not correct):
             if correct:
                 list_studied.append(theme)
-            r = accessGraph(theme, topic, correct, list_studied=list_studied)
+            r = accessGraph(app, theme, topic, correct, list_studied=list_studied)
             awRes.append(r)
         else:
             res.append({

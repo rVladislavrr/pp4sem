@@ -4,12 +4,9 @@ from neo4j import GraphDatabase
 # from services.gener_math import req_math
 from models.base import *
 from config import *
-
-app = FastAPI()
-app.driver = None
-
 from main.handling import filter_List, createListJson
 
+app = FastAPI()
 
 @app.on_event("startup")
 async def startup():
@@ -21,10 +18,10 @@ async def startup():
 async def root(data: Union[List[Exercise], Receipt] = None):
     if isinstance(data, List):
         lst, flag = await filter_List(data)
-        return await createListJson(lst, flag)
+        return await createListJson(app, lst, flag)
     elif isinstance(data, Receipt):
         lst, flag = await filter_List(data.get_test())
-        return await createListJson(lst, flag, data.get_studied(), data.topic)
+        return await createListJson(app, lst, flag, data.get_studied(), data.topic)
     elif not data:
         raise HTTPException(status_code=404, detail="None")
     else:
