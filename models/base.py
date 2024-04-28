@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class Exercise(BaseModel):
-    theme: str
+    theme: str | list[str]
     complexity: int
     answer: str | bool
 

@@ -9,24 +9,48 @@ GET http://127.0.0.1:8000
 Content-Type: application/json
 
 {
-  "test": [
-    {
+  "test": [{
       "theme": "Матрица",
-      "complexity": 0,
+      "complexity": 2,
       "answer": "True"
-    },
-    {
-      "theme": "Матрица",
+    },{
+      "theme": "Опр. Вырожденной матрицы",
       "complexity": 1,
       "answer": "True"
-    },
-    {
-      "theme": "Матрица",
+    },{
+      "theme": "Опр. Матричного уравнения",
+      "complexity": 2,
+      "answer": "True"
+    },{
+      "theme": "Определитель",
+      "complexity": 2,
+      "answer": "True"
+    },{
+      "theme": "Опр. Определителя (через подстановки)",
+      "complexity": 2,
+      "answer": "True"
+    },{
+      "theme": "Св-во Определителя (об общем множителе)",
+      "complexity": 2,
+      "answer": "True"
+    },{
+      "theme": "Св-во Определителя (элементарные преобразования)",
+      "complexity": 2,
+      "answer": "True"
+    },{
+      "theme": "Св-во Определителя (смена знака при перестановках строк)",
+      "complexity": 2,
+      "answer": "True"
+    },{
+      "theme": "Метод вычисления Определителя (понижением порядка)",
+      "complexity": 2,
+      "answer": "True"
+    },{
+      "theme": "Св-во Определителя (транспонированием не изменяется)",
       "complexity": 2,
       "answer": "True"
     }
   ],
-  "studied": ["Комплексные числа","Опр. Определителя (через подстановки)"]
-
+  "studied": ["Комплексные числа"]
 }
 

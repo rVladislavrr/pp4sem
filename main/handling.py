@@ -1,4 +1,7 @@
+import threading
 from graph.graphDBCypher import accessGraph
+
+
 
 async def filter_List(lst: list) -> (list, bool):
     """
@@ -8,10 +11,24 @@ async def filter_List(lst: list) -> (list, bool):
     negative = [mod for mod in lst if not mod.get_answer()]
     return (negative, False) if negative else (lst, True)
 
+
 async def createListJson(app, lst: list, correct: bool, list_studied=None, topic: str = '') -> dict:
+    def work_foo(theme_w):
+        if (chek_themes[theme_w] >= 2 and correct) or (chek_themes[theme_w] <= 0 and not correct):
+            if correct:
+                list_studied.append(theme_w)
+            themes = accessGraph(app, theme_w, topic, correct, list_studied=list_studied)
+            res.append(themes)
+        else:
+            if theme_w not in list_studied:
+                res.append({
+                    "title": theme_w,
+                    'complexity': chek_themes[theme_w] + 1 if correct else chek_themes[theme_w] - 1,
+                    'count': 1
+                })
+
     if list_studied is None:
         list_studied = []
-
     chek_themes = {}
 
     for model in lst:
@@ -24,34 +41,33 @@ async def createListJson(app, lst: list, correct: bool, list_studied=None, topic
             else:
                 chek_themes[model.theme] = model.complexity if model.complexity < chek_themes[model.theme] \
                     else chek_themes[model.theme]
-
     res = []
-    awRes = []
-
+    threads = []
     for theme in chek_themes.keys():
-        if (chek_themes[theme] >= 2 and correct) or (chek_themes[theme] <= 0 and not correct):
-            if correct:
-                list_studied.append(theme)
-            r = accessGraph(app, theme, topic, correct, list_studied=list_studied)
-            awRes.append(r)
-        else:
-            res.append({
-                'title': theme,
-                'complexity': chek_themes[theme] + 1 if correct else chek_themes[theme] - 1,
-                'count': 1
-            })
+        thread = threading.Thread(target=work_foo, args=(theme,))
+        thread.start()
+        threads.append(thread)
 
-    for r in awRes:
-        for rr in await r:
-            res.append(rr)
+    for thread in threads:
+        thread.join()
 
-    new_obj = {}
+    slovar = {}
 
-    for obj in res:
-        if obj['title'] not in list_studied:
-            if obj['title'] in new_obj:
-                new_obj[obj['title']]['count'] += 1
+    for r in res:
+        if isinstance(r, dict):
+            if r['title'] in slovar:
+                slovar[r['title']]['count'] += 1
             else:
-                new_obj[obj['title']] = obj
+                slovar[r['title']] = r
+        else:
+            for th in r:
+                if th in slovar:
+                    slovar[th]['count'] += 1
+                else:
+                    slovar[th] = {
+                        "title": th,
+                        'complexity': 0 if correct else 2,
+                        'count': 1
+                    }
 
-    return {"tasks": list(new_obj.values()), "studied": list(set(list_studied))}
+    return {"tasks": list(slovar.values()), "studied": list(set(list_studied))}
