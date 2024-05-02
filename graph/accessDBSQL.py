@@ -1,4 +1,14 @@
 import sqlite3
+from graph.graphDBCypher import GraphObject
+# def SqlCreater(driver):
+#     conn = sqlite3.connect('graph.db')
+#     with driver.session() as session:
+#         query = """MATCH (n) RETURN n"""
+#         res = list(map(lambda x: GraphObject(x['n']), session.run(query)))
+#         res.sort()
+#         for i in res:
+#             print(i)
+#     pass
 
 async def findId(name_element: str, cursor) -> int:
     try:
