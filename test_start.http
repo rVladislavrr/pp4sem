@@ -1,41 +1,17 @@
 ###
-GET http://127.0.0.1:8000/api/next/Обратная матрица
-###
-GET http://127.0.0.1:8000/api/path/Определитель/Определитель
-###
-GET http://127.0.0.1:8000/api/next/Матрица
-###
-GET http://127.0.0.1:8000/api/behind/Теорема Формулы Крамера решения СЛУ
-###
-GET http://127.0.0.1:8000/api/id/Метод вычисления Определителя (сведением к треугольному виду)
-###
-GET http://127.0.0.1:8000/name
+POST http://127.0.0.1:8080/api/algo_two
 Content-Type: application/json
 
 {
-"test":[
-   {
-      "id": ["d53761d3-4270-4af4-5f21-b7caaa4efb43","51284561-bb56-4e07-886b-224202b99646"],
+    "test":[{
+        "id": ["8c024cc5-8998-4183-a073-e61fd32a10e0"],
+        "answer": false,
+        "complexity":0
+    },{
+      "id": "b7081598-c0f6-46b9-5d35-95db5681d5e5",
+      "complexity":2,
       "answer": true
-    },
-  {
-    "theme": "Матрица",
-    "id": ["9395e41a-40b6-4411-f667-1c38acbb91b5"],
-    "complexity": 2,
-    "answer": true
-  }
-]
-
+    }],
+    "topic": "aaa6287a-53d6-4d20-cd97-987eeb129e7c"
 }
 ###
-{
-  "test":[
-    {
-      "id": "d53761d3-4270-4af4-5f21-b7caaa4efb43",
-      "answer": "False"
-    },{
-      "id": "51284561-bb56-4e07-886b-224202b99646",
-      "answer": "True"
-    }
-  ]
-}
