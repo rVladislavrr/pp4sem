@@ -1,14 +1,14 @@
 version: '3.8'
 services:
-  fast-api:
-    image: fast_api_app:v2
-    ports:
-      - 8000:8000
-    restart: unless-stopped
-    networks:
-      - my-network
-    depends_on:
-      - neo4j
+#  fast-api:
+#    image: fast_appsem:v2
+#    ports:
+#      - 8000:8000
+#    restart: unless-stopped
+#    networks:
+#      - my-network
+#    depends_on:
+#      - neo4j
 
     # Добавьте другие параметры, такие как environment и volumes, если это необходимо
   neo4j:
@@ -26,6 +26,6 @@ services:
       - ./db/plugins:/plugins
     networks:
       - my-network
-networks:
-  my-network:
-    driver: bridge
+#networks:
+#  my-network:
+#    driver: bridge

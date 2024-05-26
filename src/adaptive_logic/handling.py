@@ -1,5 +1,10 @@
-import threading
-from src.graph.graphDBCypher import  createobj, GraphObject, behindFoo, pathFoo, nextFoo
+from src.graph.graphDBCypher import (
+    createobj,
+    GraphObject,
+    behindFoo,
+    pathFoo,
+    nextFoo,
+    get_name_id_graph, get_id_name_graph)
 from src.adaptive_logic.schemes import ThemeRes, Result, ThemeReq
 
 
@@ -58,7 +63,8 @@ async def get_list_res_pos(pos_list, topic: str, list_studied=[]):
     return res
 
 
-async def create_with_neg(neg_list: list[ThemeReq], pos_list: list,count:int, list_studied: list, topic: str = '') -> Result:
+async def create_with_neg(neg_list: list[ThemeReq], pos_list: list, count: int, list_studied: list,
+                          topic: str = '') -> Result:
     res = await get_list_res_neg(neg_list)
     res = list(set(res))
     if len(res) > count:
@@ -84,7 +90,7 @@ async def create_with_neg(neg_list: list[ThemeReq], pos_list: list,count:int, li
                "list_studied": list_studied})
 
 
-async def create_positive(pos_list: list[ThemeReq], count:int, list_studied: list, topic: str = '') -> Result:
+async def create_positive(pos_list: list[ThemeReq], count: int, list_studied: list, topic: str = '') -> Result:
     res = await get_list_res_pos(pos_list, topic, list_studied)
     res = list(set(res))
     res = [theme for theme in res if theme.id not in list_studied]
@@ -106,3 +112,10 @@ async def create_positive(pos_list: list[ThemeReq], count:int, list_studied: lis
         return Result(
             **{"tasks": [ThemeRes.model_validate(th, from_attributes=True) for th in res],
                "list_studied": list_studied})
+
+
+def get_name_id(id_name):
+    return get_name_id_graph(id_name)
+
+def get_id_name(name):
+    return get_id_name_graph(name)

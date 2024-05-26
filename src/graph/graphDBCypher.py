@@ -70,3 +70,21 @@ def getThemeByIdTask(id_task):
             return res
         return []
 
+
+def get_name_id_graph(id_theme):
+    with driver.session() as session:
+        query = """MATCH (n:theme {id: $id}) RETURN n"""
+        res = list(session.run(query, id=id_theme))
+        if res:
+            res = dict(res[0])
+            return res.get('n').get('name')
+        return 'Нет по данному айди'
+
+def get_id_name_graph(theme):
+    with driver.session() as session:
+        query = """MATCH (n:theme {name: $name}) RETURN n"""
+        res = list(session.run(query, name=theme))
+        if res:
+            res = dict(res[0])
+            return res.get('n').get('id')
+        return 'Нет такой темы в графе'
