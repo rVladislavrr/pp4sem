@@ -21,6 +21,8 @@ async def get_list_res_neg(neg_list):
     for id_name, complexity in foundMinCompl.items():
         if 0 < complexity:
             obj = createobj(id_name)
+            if not obj:
+                continue
             obj.count = 1
             obj.complexity = complexity - 1
             res.append(obj)
@@ -46,7 +48,8 @@ async def get_list_res_pos(pos_list, topic: str, list_studied=[]):
 
     for id_name, complexity in foundMinCompl.items():
         if 1 < complexity:
-            list_studied.append(id_name)
+            if createobj(id_name):
+                list_studied.append(id_name)
             if topic:
                 list_obj = pathFoo(id_name, topic, list_studied)
             else:
@@ -57,6 +60,8 @@ async def get_list_res_pos(pos_list, topic: str, list_studied=[]):
             res.extend(list_obj)
         else:
             obj = createobj(id_name)
+            if not obj:
+                continue
             obj.count = 1
             obj.complexity = complexity + 1
             res.append(obj)
