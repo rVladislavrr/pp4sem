@@ -1,11 +1,13 @@
 from src.graph.graphDBCypher import (
     createobj,
-    GraphObject,
+    GraphTheme,
     behindFoo,
     pathFoo,
     nextFoo,
-    get_name_id_graph, get_id_name_graph)
-from src.adaptive_logic.schemes import ThemeRes, Result, ThemeReq
+    get_name_id_graph,
+    get_id_name_graph,
+    get_all_task)
+from src.adaptive_logic.schemes import  ThemeReq
 
 
 async def get_list_res_neg(neg_list):
@@ -45,7 +47,6 @@ async def get_list_res_pos(pos_list, topic: str, list_studied=[]):
                 foundMinCompl[mod.id] = mod.complexity
         else:
             foundMinCompl[mod.id] = mod.complexity
-
     for id_name, complexity in foundMinCompl.items():
         if 1 < complexity:
             if createobj(id_name):
@@ -69,15 +70,13 @@ async def get_list_res_pos(pos_list, topic: str, list_studied=[]):
 
 
 async def create_with_neg(neg_list: list[ThemeReq], pos_list: list, count: int, list_studied: list,
-                          topic: str = '') -> Result:
+                          topic: str = ''):
     res = await get_list_res_neg(neg_list)
     res = list(set(res))
     if len(res) > count:
         res.sort(key=lambda x: x.description, reverse=True)
-        res: list[GraphObject] = res[:count]
-        return Result(
-            **{"tasks": [ThemeRes.model_validate(th, from_attributes=True) for th in res],
-               "list_studied": list_studied})
+        res: list[GraphTheme] = res[:count]
+        return res, list_studied
     else:
         res_pos = await get_list_res_pos(pos_list, topic, list_studied)
         res_pos = list(set(res_pos))
@@ -90,22 +89,17 @@ async def create_with_neg(neg_list: list[ThemeReq], pos_list: list, count: int, 
                 n += 1
                 if n >= count:
                     break
-        return Result(
-            **{"tasks": [ThemeRes.model_validate(th, from_attributes=True) for th in res],
-               "list_studied": list_studied})
+        return res, list_studied
 
 
-async def create_positive(pos_list: list[ThemeReq], count: int, list_studied: list, topic: str = '') -> Result:
+async def create_positive(pos_list: list[ThemeReq], count: int, list_studied: list, topic: str = ''):
     res = await get_list_res_pos(pos_list, topic, list_studied)
     res = list(set(res))
     res = [theme for theme in res if theme.id not in list_studied]
     if len(res) > count:
-
         res.sort(key=lambda x: x.description, reverse=True)
-        res: list[GraphObject] = res[:count]
-        return Result(
-            **{"tasks": [ThemeRes.model_validate(th, from_attributes=True) for th in res],
-               "list_studied": list_studied})
+        res: list[GraphTheme] = res[:count]
+        return res, list_studied
     else:
         if len(res) < count:
             n = len(res)
@@ -114,13 +108,50 @@ async def create_positive(pos_list: list[ThemeReq], count: int, list_studied: li
                 n += 1
                 if n >= count:
                     break
-        return Result(
-            **{"tasks": [ThemeRes.model_validate(th, from_attributes=True) for th in res],
-               "list_studied": list_studied})
+        return res, list_studied
 
+
+async def create_res(data, bool_a = False):
+    test, count = data.get_test()
+    if bool_a:
+        count = 999
+    negative = [mod for mod in test if not mod.answer]
+    positive = [mod for mod in test if mod.answer]
+    if negative:
+        return await create_with_neg(negative, positive, count, data.list_studied, data.topic)
+    return await create_positive(positive, count, data.list_studied, data.topic)
 
 def get_name_id(id_name):
     return get_name_id_graph(id_name)
 
+
 def get_id_name(name):
     return get_id_name_graph(name)
+
+def get_best_task(list_theme, all_task):
+    print(list_theme)
+    best_count = 0
+    best_task = None
+    for task in all_task:
+        matching_theme = set(task.get('related_themes')) & set(list_theme)
+        if len(matching_theme) > best_count:
+            best_count = len(matching_theme)
+            best_task = task
+    if best_task:
+        return best_task
+    return []
+
+def create_task(res: list[GraphTheme]):
+    res = [inx.id for inx in res]
+    answer_list = []
+    all_task = get_all_task()
+    while res:
+        best_task = get_best_task(res, all_task)
+        if best_task:
+            answer_list.append(best_task.get('task_name'))
+            res = [theme for theme in res if theme not in best_task.get('related_themes')]
+        else:
+            break
+    return answer_list
+
+

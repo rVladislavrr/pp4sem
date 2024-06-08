@@ -1,17 +1,13 @@
 ###
-POST http://127.0.0.1:8080/api/algo_two
+POST http://127.0.0.1:8080/api
 Content-Type: application/json
 
 {
     "test":[{
-        "id": ["8c024cc5-8998-4183-a073-e61fd32a10e0"],
-        "answer": false,
-        "complexity":0
-    },{
-      "id": "b7081598-c0f6-46b9-5d35-95db5681d5e5",
-      "complexity":2,
-      "answer": true
-    }],
-    "topic": "aaa6287a-53d6-4d20-cd97-987eeb129e7c"
+      "id": "52dce22a-2324-46e1-cd08-f32eaa260b63",
+      "complexity": 1,
+      "answer": false
+    }]
+
 }
 ###

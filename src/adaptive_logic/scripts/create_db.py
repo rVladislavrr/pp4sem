@@ -97,12 +97,12 @@ def employ_person_tx(tx, create_nodes, create_conn):
                MATCH (:theme{id:$id})-[p:uses]->(m)
                return count(p)
                """, id=dict(node['n'])['id'])
-        print('////')
+
         tx.run("""
                MATCH (n:theme{id:$id})
                set n.description = $count
                """, count=count.value()[0], id=dict(node['n'])['id'])
-
+    print('////')
 
 
 AUTH = (USERNAME, PASSWORD)

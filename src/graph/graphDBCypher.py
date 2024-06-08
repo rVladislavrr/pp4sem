@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from src.config import driver
 
 
-class GraphObject(BaseModel):
+class GraphTheme(BaseModel):
     id: str
     description: int
     count: int = 1
@@ -20,7 +20,7 @@ def behindFoo(id_n):
         query = """MATCH (n:theme)-[:uses]->(:theme{id: $id}) RETURN n"""
         res = list(session.run(query, id=id_n))
         if res:
-            result = [GraphObject(**{'id': i['n'].get('id'), 'description': i['n'].get('description')}) for i in res]
+            result = [GraphTheme(**{'id': i['n'].get('id'), 'description': i['n'].get('description')}) for i in res]
             return list(set(result))
         return []
 
@@ -28,10 +28,9 @@ def behindFoo(id_n):
 def nextFoo(id_m: str):
     with driver.session() as session:
         query = """MATCH (:theme{id: $id})-[:uses]->(n:theme) RETURN n"""
-
         res = list(session.run(query, id=id_m))
         if res:
-            result = [GraphObject(**{'id': i['n'].get('id'), 'description': i['n'].get('description')}) for i in res]
+            result = [GraphTheme(**{'id': i['n'].get('id'), 'description': i['n'].get('description')}) for i in res]
             return list(set(result))
         return []
 
@@ -43,7 +42,7 @@ def pathFoo(start: str, end: str, list_studied=[]):
             res = list(session.run(query, name1=start, name2=end))
             if res:
                 r = res[0]['path']
-                res = [GraphObject(**{'id': i.get('id'), 'description': i.get('description')}) for i in r.nodes]
+                res = [GraphTheme(**{'id': i.get('id'), 'description': i.get('description')}) for i in r.nodes]
                 for i in res:
                     if i.id not in list_studied:
                         return [i]
@@ -57,7 +56,7 @@ def createobj(id_w):
         query = """MATCH (n:theme{id: $name2})RETURN n"""
         res = list(session.run(query, name2=id_w))
         if res:
-            result = [GraphObject(**{'id': i['n'].get('id'), 'description': i['n'].get('description')}) for i in res]
+            result = [GraphTheme(**{'id': i['n'].get('id'), 'description': i['n'].get('description')}) for i in res]
             return result[0]
         return []
 
@@ -88,3 +87,10 @@ def get_id_name_graph(theme):
             res = dict(res[0])
             return res.get('n').get('id')
         return 'Нет такой темы в графе'
+
+def get_all_task():
+    with driver.session() as session:
+        query = """MATCH (t:task)<-[:link]-(th:theme)
+        WITH t, collect(th.id) AS related_themes
+        RETURN t.id AS task_name, related_themes"""
+        return [dict(i) for i in session.run(query)]
