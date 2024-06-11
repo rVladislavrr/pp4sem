@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from src.graph.graphDBCypher import getThemeByIdTask
 
+
 class Task(BaseModel):
     id: str | list[str]
     answer: bool
@@ -67,3 +68,13 @@ class ByReq(BaseModel):
         for i in self.test:
             res.extend(i.get_theme())
         return res, len(res)
+
+
+class TaskRes(BaseModel):
+    id: str
+
+
+class ResultTask(BaseModel):
+    tasks: list[TaskRes]
+    list_studied: list[str]
+    pass

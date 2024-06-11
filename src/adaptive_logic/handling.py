@@ -7,7 +7,7 @@ from src.graph.graphDBCypher import (
     get_name_id_graph,
     get_id_name_graph,
     get_all_task)
-from src.adaptive_logic.schemes import  ThemeReq
+from src.adaptive_logic.schemes import ThemeReq
 
 
 async def get_list_res_neg(neg_list):
@@ -111,15 +111,16 @@ async def create_positive(pos_list: list[ThemeReq], count: int, list_studied: li
         return res, list_studied
 
 
-async def create_res(data, bool_a = False):
+async def create_res(data, bool_answer=False):
     test, count = data.get_test()
-    if bool_a:
+    if bool_answer:
         count = 999
     negative = [mod for mod in test if not mod.answer]
     positive = [mod for mod in test if mod.answer]
     if negative:
         return await create_with_neg(negative, positive, count, data.list_studied, data.topic)
     return await create_positive(positive, count, data.list_studied, data.topic)
+
 
 def get_name_id(id_name):
     return get_name_id_graph(id_name)
@@ -128,8 +129,8 @@ def get_name_id(id_name):
 def get_id_name(name):
     return get_id_name_graph(name)
 
+
 def get_best_task(list_theme, all_task):
-    print(list_theme)
     best_count = 0
     best_task = None
     for task in all_task:
@@ -141,6 +142,7 @@ def get_best_task(list_theme, all_task):
         return best_task
     return []
 
+
 def create_task(res: list[GraphTheme]):
     res = [inx.id for inx in res]
     answer_list = []
@@ -148,10 +150,8 @@ def create_task(res: list[GraphTheme]):
     while res:
         best_task = get_best_task(res, all_task)
         if best_task:
-            answer_list.append(best_task.get('task_name'))
+            answer_list.append({'id': best_task.get('task_name')})
             res = [theme for theme in res if theme not in best_task.get('related_themes')]
         else:
             break
     return answer_list
-
-
